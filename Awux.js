@@ -4,15 +4,9 @@ By Awu
 -------
 Awu Awu Awu Awu Awu Awu Awu Awu !
 */
-function makeurl(url, data){
-    if(!data){
-        return url;
-    }
-    return url+"?"+data;
-}
 
 //xhr request & send
-function Xget(url, data=null){
+function Xget(url){
     var xhr = new XMLHttpRequest();
     var T=3000;
 
@@ -36,7 +30,7 @@ function Xget(url, data=null){
         }
     }
 
-    xhr.open("GET", makeurl(url, data), true);
+    xhr.open("GET", url, true);
     xhr.send();
 }
 
@@ -69,7 +63,7 @@ function Xpost(url, data){
     xhr.send(data);
 }
 
-function Xhead(url, data=null){
+function Xhead(url){
     var xhr = new XMLHttpRequest();
     var T=3000;
 
@@ -93,7 +87,7 @@ function Xhead(url, data=null){
         }
     }
 
-    xhr.open("Head", makeurl(url, data), true);
+    xhr.open("Head", url, true);
     xhr.send();
 }
 
@@ -119,10 +113,10 @@ function judge(type, res){
     }
 }
 
-function Fget(url, data=null, type="text"){
+function Fget(url, type="text"){
     var ctrler = new AbortController();
     var signal=ctrler.signal;
-    fetch(makeurl(url, data), {signal})
+    fetch(url, {signal})
         .then((res) => {
             if(!res.ok){
                 throw new Error("Network response is not ok");
