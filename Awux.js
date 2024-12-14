@@ -2,6 +2,8 @@
 This is Awux.js
 By Awu
 -------
+Allow Xhr(GET, POST HEAD(maybe it can't run)), Fetch(GET, POST)(allow password, add new Promise)
+-------
 Awu Awu Awu Awu Awu Awu Awu Awu !
 */
 
@@ -113,41 +115,42 @@ function judge(type, res){
     }
 }
 
-function Fget(url, type="text"){
-    var ctrler = new AbortController();
-    var signal=ctrler.signal;
-    fetch(url, {signal})
+async function Fget(url, type="text", auth=null){
+    var result=await fetch(url, {
+    		method : "GET",
+         header : {
+         	"authorization" : auth
+         }
+    })
         .then((res) => {
             if(!res.ok){
                 throw new Error("Network response is not ok");
             }
-            console.log(judge(type, res))
+            return judge(type, res);
         })
         .catch((err) => {
             console.error("Fetch Error:", err);
         })
-    setTimeout(() => ctrler.abort(), 3000);
+     return result;
 }
 
-function Fpost(url, data, type="text"){
-    var ctrler = new AbortController();
-    var signal=ctrler.signal;
-    fetch(url, {
-        signal,
+async function Fpost(url, data, type="text", auth=null){
+    var result=await fetch(url, {
         body: data,
         method: "POST",
         headers:{
-            'Contenet-Type' : "application/x-www-form-urlencoded"
+            'Content-Type' : "application/x-www-form-urlencoded",
+            "authorization" : auth
         }
     })
         .then((res) => {
             if(!res.ok){
                 throw new Error("Network response is not ok");
             }
-            console.log(judge(type, res))
+            return judge(type, res);
         })
         .catch((err) => {
             console.error("Fetch Error:", err);
         })
-    setTimeout(() => ctrler.abort(), 3000);
+    return result;
 }
